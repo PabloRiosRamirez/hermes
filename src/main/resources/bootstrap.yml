@@ -3,6 +3,6 @@ spring:
     name: hermes
   cloud:
     config:
-      uri:  http://localhost:8888
-      label:  development
-      profile:  development
+      uri:  ${SPRING_CLOUD_CONFIG_URI}
+      label:  ${SPRING_CLOUD_CONFIG_LABEL}
+      profile:  ${SPRING_CLOUD_CONFIG_PROFILE}
