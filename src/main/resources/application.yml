@@ -4,12 +4,3 @@ logging:
       springframework:
         web: trace
       hibernate: trace
-eureka:
-  client:
-    serviceUrl:
-      defaultZone: http://zeus.grisk.online/eureka/
-  instance:
-    hostname: hermes.herokuapp.com
-    status-page-url-path: https://${eureka.instance.hostname}/info
-    health-check-url-path: https://${eureka.instance.hostname}/health
-    home-page-url-path: https://${eureka.instance.hostname}/
