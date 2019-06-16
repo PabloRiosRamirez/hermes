@@ -4,3 +4,14 @@ logging:
       springframework:
         web: trace
       hibernate: trace
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://zeus.grisk.online/eureka/
+---
+spring:
+  profiles: heroku
+eureka:
+  instance:
+    hostname: hermes.herokuapp.com
+    nonSecurePort: 80
