@@ -22,9 +22,9 @@ import java.util.Date;
 import java.util.UUID;
 
 @RestController
-public class MailRestController {
+public class MainController {
 
-    private static final Log logger = LogFactory.getLog(MailRestController.class);
+    private static final Log logger = LogFactory.getLog(MainController.class);
 
     @Autowired
     UUID uuid;
