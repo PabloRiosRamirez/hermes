@@ -19,10 +19,10 @@ public class HermesApplication {
         SpringApplication.run(HermesApplication.class, args);
     }
 
-    @Value("${api.mail.key.public}")
+    @Value("${MAILJET_KEY_PUBLIC}")
     String keyPublic;
 
-    @Value("${api.mail.key.secret}")
+    @Value("${MAILJET_KEY_SECRET}")
     String keySecret;
 
     @Bean

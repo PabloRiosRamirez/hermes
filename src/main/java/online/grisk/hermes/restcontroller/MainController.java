@@ -32,10 +32,10 @@ public class MainController {
     @Autowired
     MailjetClient mailjetClient;
 
-    @Value("${api.mail.to}")
+    @Value("${MAILJET_TO}")
     String mailTo;
 
-    @Value("${api.mail.name}")
+    @Value("${MAILJET_NAME}")
     String nameTo;
 
     @PostMapping(value = "/v1/rest/mail/send")
