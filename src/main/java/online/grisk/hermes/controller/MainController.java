@@ -35,6 +35,6 @@ public class MainController {
         response.put("uuid", processHeaders.getOrDefault("id", UUID.randomUUID()));
         response.put("message", processPayload.getOrDefault("message", ""));
         response.put("status", ((HttpStatus) processPayload.getOrDefault("status", HttpStatus.INTERNAL_SERVER_ERROR)).value());
-        return new ResponseEntity(response, HttpStatus.OK);
+        return new ResponseEntity(response, (HttpStatus) processPayload.getOrDefault("status", HttpStatus.INTERNAL_SERVER_ERROR));
     }
 }
