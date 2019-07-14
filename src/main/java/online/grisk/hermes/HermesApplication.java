@@ -8,11 +8,13 @@ import org.springframework.context.annotation.Bean;
 
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.ClientOptions;
+import org.springframework.context.annotation.ImportResource;
 
 import java.util.UUID;
 
 @EnableEurekaClient
 @SpringBootApplication
+@ImportResource("classpath:integration.cfg.xml")
 public class HermesApplication {
 
     public static void main(String[] args) {

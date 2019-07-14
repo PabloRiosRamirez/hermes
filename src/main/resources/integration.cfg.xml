@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:int="http://www.springframework.org/schema/integration"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/integration http://www.springframework.org/schema/integration/spring-integration.xsd">
+
+    <int:gateway id="gateway" default-request-channel="channelEmail"
+                 service-interface="online.grisk.hermes.integration.gateway.GatewayService"/>
+
+    <int:channel id="channelEmail"/>
+
+    <int:recipient-list-router input-channel="channelEmail">
+        <int:recipient channel="channelResetPass"
+                       selector-expression="payload.step.equals('resetByLogin')" />
+        <int:recipient channel="channelRegister"
+                       selector-expression="payload.step.equals('registerByLogin')" />
+    </int:recipient-list-router>
+
+
+    <int:channel id="channelResetPass" />
+    <int:channel id="channelRegister" />
+
+    <int:service-activator input-channel="channelResetPass" ref="emailServiceActivator" method="invokeMessageReset"/>
+    <int:service-activator input-channel="channelRegister" ref="emailServiceActivator" method="invokeMessageRegister"/>
+
+</beans>
