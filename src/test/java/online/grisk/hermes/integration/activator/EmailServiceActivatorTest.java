@@ -32,12 +32,12 @@ public class EmailServiceActivatorTest {
     }
 
     @Test
-    public void invokeMessageReset() {
-        emailServiceActivator.invokeMessageReset(requestEmail);
+    public void resetPassword() {
+        emailServiceActivator.resetPassword(requestEmail);
     }
 
     @Test
-    public void invokeMessageRegister() {
-        emailServiceActivator.invokeMessageRegister(requestEmail);
+    public void registerUser() {
+        emailServiceActivator.registerUser(requestEmail);
     }
 }
