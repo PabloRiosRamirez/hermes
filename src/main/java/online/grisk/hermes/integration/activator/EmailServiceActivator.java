@@ -40,7 +40,7 @@ public class EmailServiceActivator {
     @Value("${MAILJET_NAME}")
     String nameTo;
 
-    public Message invokeMessageReset(@Payload RequestEmail requestEmail) {
+    public Message resetPassword(@Payload RequestEmail requestEmail) {
         return invoke(
                 requestEmail.getAddress(),
                 "Restablecer contraseña de cuenta GRisk",
@@ -48,7 +48,7 @@ public class EmailServiceActivator {
                 htmlResetPass.replaceAll("TOKEN_RESET", requestEmail.getToken()));
     }
 
-    public Message invokeMessageRegister(@Payload RequestEmail requestEmail) {
+    public Message registerUser(@Payload RequestEmail requestEmail) {
         return invoke(
                 requestEmail.getAddress(),
                 "Activación de cuenta de GRisk",

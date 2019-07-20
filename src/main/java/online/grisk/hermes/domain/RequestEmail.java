@@ -20,7 +20,8 @@ public class RequestEmail implements Serializable {
     private String step;
 
     @NotBlank
-    @Size(min = 1, max = 2147483647)    private String token;
+    @Size(min = 1, max = 2147483647)
+    private String token;
 
     public RequestEmail(@NotBlank @Size(min = 1, max = 2147483647) @Pattern(regexp = "[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?", message = "Correo electrónico no válido") String address, @NotBlank @Size(min = 1, max = 2147483647) String step, @NotBlank @Size(min = 1, max = 2147483647) String token) {
         this.address = address;
