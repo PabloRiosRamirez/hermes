@@ -1,5 +1,6 @@
 package online.grisk.hermes.domain;
 
+import online.grisk.hermes.domain.validation.RequestEmail;
 import org.junit.Before;
 import org.junit.Test;
 

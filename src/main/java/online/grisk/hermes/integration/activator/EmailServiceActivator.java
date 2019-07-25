@@ -4,15 +4,12 @@ import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
 import com.mailjet.client.resource.Emailv31;
-import online.grisk.hermes.domain.RequestEmail;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
-import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Payload;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -40,23 +37,23 @@ public class EmailServiceActivator {
     @Value("${MAILJET_NAME}")
     String nameTo;
 
-    public Message resetPassword(@Payload RequestEmail requestEmail) {
+    public Map invokeResetPassword(@Payload Map requestEmail) {
         return invoke(
-                requestEmail.getAddress(),
+                requestEmail.getOrDefault("address","").toString(),
                 "Restablecer contraseña de cuenta GRisk",
-                textResetPass.replaceAll("TOKEN_RESET", requestEmail.getToken()),
-                htmlResetPass.replaceAll("TOKEN_RESET", requestEmail.getToken()));
+                textResetPass.replaceAll("TOKEN_RESET", requestEmail.getOrDefault("token","").toString()),
+                htmlResetPass.replaceAll("TOKEN_RESET", requestEmail.getOrDefault("token","").toString()));
     }
 
-    public Message registerUser(@Payload RequestEmail requestEmail) {
+    public Map invokeRegisterUser(@Payload Map requestEmail) {
         return invoke(
-                requestEmail.getAddress(),
+                requestEmail.getOrDefault("address","").toString(),
                 "Activación de cuenta de GRisk",
-                textRegister.replaceAll("TOKEN_AUTH", requestEmail.getToken()),
-                htmlRegister.replaceAll("TOKEN_AUTH", requestEmail.getToken()));
+                textRegister.replaceAll("TOKEN_AUTH", requestEmail.getOrDefault("token","").toString()),
+                htmlRegister.replaceAll("TOKEN_AUTH", requestEmail.getOrDefault("token","").toString()));
     }
 
-    private Message invoke(String address,
+    private Map invoke(String address,
                            String subject,
                            String text,
                            String html) {
@@ -76,21 +73,22 @@ public class EmailServiceActivator {
         return sendEmail(mailjetRequest);
     }
 
-    private Message sendEmail(MailjetRequest mailjetRequest) {
+    private Map sendEmail(MailjetRequest mailjetRequest) {
         Map response = new HashMap();
-        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR);
-        response.put("message", "Ha ocurrido un problema inesperado");
+        response.put("STATUS", HttpStatus.INTERNAL_SERVER_ERROR);
+        response.put("MESSAGE", "An unexpected problem occurred.");
         try {
             MailjetResponse mailjetResponse = mailjetClient.post(mailjetRequest);
             if (mailjetResponse.getStatus() == 200) {
-                response.put("status", HttpStatus.OK);
-                response.put("message", "Se ha enviado correctamente el email.");
-                return MessageBuilder.withPayload(response).build();
+                response.put("STATUS", HttpStatus.OK);
+                response.put("MESSAGE", "This email has been sent successfully.");
+                return response;
             } else {
-                return MessageBuilder.withPayload(response).build();
+                return response;
             }
         } catch (Exception e) {
-            return MessageBuilder.withPayload(response).build();
+            return response;
         }
     }
+
 }

@@ -1,6 +1,6 @@
 package online.grisk.hermes.controller;
 
-import online.grisk.hermes.domain.RequestEmail;
+import online.grisk.hermes.domain.validation.RequestEmail;
 import online.grisk.hermes.integration.gateway.GatewayService;
 import org.junit.Before;
 import org.junit.Test;

@@ -21,7 +21,7 @@
     <int:channel id="channelResetPassword" />
     <int:channel id="channelRegisterUser" />
 
-    <int:service-activator input-channel="channelResetPassword" ref="emailServiceActivator" method="resetPassword"/>
-    <int:service-activator input-channel="channelRegisterUser" ref="emailServiceActivator" method="registerUser"/>
+    <int:service-activator input-channel="channelResetPassword" ref="emailServiceActivator" method="invokeResetPassword"/>
+    <int:service-activator input-channel="channelRegisterUser" ref="emailServiceActivator" method="invokeRegisterUser"/>
 
 </beans>

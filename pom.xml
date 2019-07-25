@@ -80,6 +80,23 @@
             <artifactId>mailjet-client</artifactId>
             <version>4.2.0</version>
         </dependency>
+
+        <!-- Begin Lombok -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.8</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- End Lombok -->
+
+        <!-- Begin Document API -->
+        <dependency>
+            <groupId>io.swagger</groupId>
+            <artifactId>swagger-annotations</artifactId>
+            <version>1.5.20</version>
+        </dependency>
+        <!-- End Document API -->
     </dependencies>
 
     <build>

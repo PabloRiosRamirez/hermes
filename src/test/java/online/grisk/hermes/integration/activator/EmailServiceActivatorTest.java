@@ -3,7 +3,7 @@ package online.grisk.hermes.integration.activator;
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
-import online.grisk.hermes.domain.RequestEmail;
+import online.grisk.hermes.domain.validation.RequestEmail;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;

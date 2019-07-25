@@ -1,40 +1,39 @@
 package online.grisk.hermes.controller;
 
-import online.grisk.hermes.domain.RequestEmail;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import online.grisk.hermes.integration.gateway.GatewayService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.messaging.handler.annotation.Headers;
+import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.util.Assert;
+import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
+@RequestMapping({"/api/email"})
+@Api(value = "Consumer API Email")
 public class MainController {
 
     @Autowired
-    GatewayService gatewayService;
+    GatewayService gateway;
 
-    @PostMapping(value = "/v1/rest/api/email")
-    public ResponseEntity<Map> sendEmail(@Valid @RequestBody RequestEmail requestEmail) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("timestamp", new Date());
-        Message process = gatewayService.process(MessageBuilder.withPayload(requestEmail).build());
-        Map processPayload = (Map) process.getPayload();
-        Map processHeaders = process.getHeaders();
-        response.put("uuid", processHeaders.getOrDefault("id", UUID.randomUUID()));
-        response.put("message", processPayload.getOrDefault("message", ""));
-        response.put("status", ((HttpStatus) processPayload.getOrDefault("status", HttpStatus.INTERNAL_SERVER_ERROR)).value());
-        return new ResponseEntity(response, (HttpStatus) processPayload.getOrDefault("status", HttpStatus.INTERNAL_SERVER_ERROR));
+    @RequestMapping(method = {RequestMethod.POST})
+    @ApiOperation("Execution for send email")
+    @ApiResponses({@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Server Error")})
+    public ResponseEntity<?> sendEmail(@Payload Map<String, Object> payload, @Headers HttpHeaders headers) {
+        this.verifyParameters(payload);
+        Map process = gateway.process(payload, headers);
+        return new ResponseEntity<>(process, HttpStatus.valueOf(process.getOrDefault("STATUS", "500").toString()));
+    }
+
+    private void verifyParameters(Map<String, Object> payload){
+        Assert.notEmpty(payload, "Payload required");
     }
 }
