@@ -12,9 +12,9 @@
 
     <int:recipient-list-router input-channel="channelEmail">
         <int:recipient channel="channelResetPassword"
-                       selector-expression="payload.step.equals('resetPassword')" />
+                       selector-expression="headers.proccess.equals('resetPassword')" />
         <int:recipient channel="channelRegisterUser"
-                       selector-expression="payload.step.equals('registerUser')" />
+                       selector-expression="headers.proccess.equals('registerUser')" />
     </int:recipient-list-router>
 
 
