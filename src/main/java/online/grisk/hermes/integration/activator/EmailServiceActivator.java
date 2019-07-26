@@ -68,7 +68,7 @@ public class EmailServiceActivator {
                 .put(Emailv31.Message.TO, new JSONArray()
                         .put(new JSONObject()
                                 .put(Emailv31.Message.EMAIL, address)));
-        MailjetRequest mailjetRequest = new MailjetRequest(Emailv31.resource).property(Emailv31.messageS, (new JSONArray()).put(message));
+        MailjetRequest mailjetRequest = new MailjetRequest(Emailv31.resource).property(Emailv31.MESSAGES, (new JSONArray()).put(message));
 
         return sendEmail(mailjetRequest);
     }
