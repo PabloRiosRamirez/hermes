@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
-@RequestMapping({"/api/email"})
+@RequestMapping({"/api/hermes"})
 @Api(value = "Consumer API Email")
 public class MainController {
 
