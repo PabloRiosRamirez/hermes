@@ -9,8 +9,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.Message;
 import org.springframework.messaging.handler.annotation.Headers;
 import org.springframework.messaging.handler.annotation.Payload;
+import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,10 +29,11 @@ public class MainController {
     @RequestMapping(method = {RequestMethod.POST})
     @ApiOperation("Execution for send email")
     @ApiResponses({@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Server Error")})
-    public ResponseEntity<?> sendEmail(@Payload Map<String, Object> payload, @Headers Map<String, Object> headers) {
+    public ResponseEntity<?> sendEmail(@Payload @RequestBody Map payload,@Headers @RequestHeader Map headers) {
         this.verifyParameters(payload);
-        Map process = gateway.process(payload, headers);
-        ResponseEntity<Map> response = new ResponseEntity<>(process, HttpStatus.valueOf(Integer.parseInt(process.getOrDefault("STATUS", "500").toString())));
+        Message build = MessageBuilder.withPayload(payload).copyHeaders(headers).build();
+        Map process = gateway.process(build);
+        ResponseEntity<Map> response = new ResponseEntity<>(process, HttpStatus.valueOf(Integer.parseInt(process.getOrDefault("status", "500").toString())));
         return response;
     }
 

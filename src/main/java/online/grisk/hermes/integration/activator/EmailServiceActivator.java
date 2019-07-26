@@ -68,20 +68,20 @@ public class EmailServiceActivator {
                 .put(Emailv31.Message.TO, new JSONArray()
                         .put(new JSONObject()
                                 .put(Emailv31.Message.EMAIL, address)));
-        MailjetRequest mailjetRequest = new MailjetRequest(Emailv31.resource).property(Emailv31.MESSAGES, (new JSONArray()).put(message));
+        MailjetRequest mailjetRequest = new MailjetRequest(Emailv31.resource).property(Emailv31.messageS, (new JSONArray()).put(message));
 
         return sendEmail(mailjetRequest);
     }
 
     private Map sendEmail(MailjetRequest mailjetRequest) {
         Map response = new HashMap();
-        response.put("STATUS", HttpStatus.INTERNAL_SERVER_ERROR);
-        response.put("MESSAGE", "An unexpected problem occurred.");
+        response.put("status", HttpStatus.INTERNAL_SERVER_ERROR.value());
+        response.put("message", "An unexpected problem occurred.");
         try {
             MailjetResponse mailjetResponse = mailjetClient.post(mailjetRequest);
             if (mailjetResponse.getStatus() == 200) {
-                response.put("STATUS", HttpStatus.OK);
-                response.put("MESSAGE", "This email has been sent successfully.");
+                response.put("status", HttpStatus.OK.value());
+                response.put("message", "This email has been sent successfully.");
                 return response;
             } else {
                 return response;
