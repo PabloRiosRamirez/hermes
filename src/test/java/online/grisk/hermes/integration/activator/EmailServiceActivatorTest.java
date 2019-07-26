@@ -27,8 +27,8 @@ public class EmailServiceActivatorTest {
         Mockito.when(mailjetResponse.getStatus()).thenReturn(200);
         Mockito.when(mailjetClient.post(Mockito.any(MailjetRequest.class))).thenReturn(mailjetResponse);
 
-        emailServiceActivator.mailTo = "pa.riosramirez@gmail.com";
-        emailServiceActivator.nameTo = "GRisk";
+        emailServiceActivator.setMailTo("pa.riosramirez@gmail.com");
+        emailServiceActivator.setNameTo("GRisk");
 
         ReflectionTestUtils.setField(emailServiceActivator, "mailjetClient", mailjetClient);
 
