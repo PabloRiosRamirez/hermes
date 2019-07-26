@@ -3,21 +3,24 @@ package online.grisk.hermes.integration.activator;
 import com.mailjet.client.MailjetClient;
 import com.mailjet.client.MailjetRequest;
 import com.mailjet.client.MailjetResponse;
-import online.grisk.hermes.domain.validation.RequestEmail;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class EmailServiceActivatorTest {
 
     MailjetClient mailjetClient;
     EmailServiceActivator emailServiceActivator = new EmailServiceActivator();
-    RequestEmail requestEmail;
+    Map requestEmail = new HashMap();
 
     @Before
     public void setUp() throws Exception {
-        requestEmail = new RequestEmail("pa.riosramirez@gmail.com", "registerByLogin", "token-test");
+        requestEmail.put("address", "pa.riosramirez@gmail.com");
+        requestEmail.put("token", "token-test");
 
         mailjetClient = Mockito.mock(MailjetClient.class);
         MailjetResponse mailjetResponse = Mockito.mock(MailjetResponse.class);
@@ -33,11 +36,11 @@ public class EmailServiceActivatorTest {
 
     @Test
     public void resetPassword() {
-        emailServiceActivator.resetPassword(requestEmail);
+        emailServiceActivator.invokeResetPassword(requestEmail);
     }
 
     @Test
     public void registerUser() {
-        emailServiceActivator.registerUser(requestEmail);
+        emailServiceActivator.invokeRegisterUser(requestEmail);
     }
 }

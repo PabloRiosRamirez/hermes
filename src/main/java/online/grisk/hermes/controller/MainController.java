@@ -27,10 +27,11 @@ public class MainController {
     @RequestMapping(method = {RequestMethod.POST})
     @ApiOperation("Execution for send email")
     @ApiResponses({@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Server Error")})
-    public ResponseEntity<?> sendEmail(@Payload Map<String, Object> payload, @Headers HttpHeaders headers) {
+    public ResponseEntity<?> sendEmail(@Payload Map<String, Object> payload, @Headers Map<String, Object> headers) {
         this.verifyParameters(payload);
         Map process = gateway.process(payload, headers);
-        return new ResponseEntity<>(process, HttpStatus.valueOf(process.getOrDefault("STATUS", "500").toString()));
+        ResponseEntity<Map> response = new ResponseEntity<>(process, HttpStatus.valueOf(Integer.parseInt(process.getOrDefault("STATUS", "500").toString())));
+        return response;
     }
 
     private void verifyParameters(Map<String, Object> payload){
