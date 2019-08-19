@@ -20,15 +20,12 @@ import java.util.Map;
 
 @RestController
 @RequestMapping({"/api/hermes"})
-@Api(value = "Consumer API Email")
 public class MainController {
 
     @Autowired
     GatewayService gateway;
 
     @RequestMapping(method = {RequestMethod.POST})
-    @ApiOperation("Execution for send email")
-    @ApiResponses({@ApiResponse(code = 400, message = "Bad Request"), @ApiResponse(code = 500, message = "Server Error")})
     public ResponseEntity<?> sendEmail(@Payload @RequestBody Map payload,@Headers @RequestHeader Map headers) {
         this.verifyParameters(payload);
         Message build = MessageBuilder.withPayload(payload).copyHeaders(headers).build();
